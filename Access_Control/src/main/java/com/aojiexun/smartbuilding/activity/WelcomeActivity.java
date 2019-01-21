@@ -3,6 +3,7 @@ package com.aojiexun.smartbuilding.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +39,7 @@ public class WelcomeActivity extends Activity {
     ExitAlertDialog exitAlertDialog;
     BaseApplication baseApplication;
     ConnectivityManager connectivityManager;
+    SharedPreferences userInfo;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,29 +60,41 @@ public class WelcomeActivity extends Activity {
         textView2.setText("设备ID："+Utils.getMac().trim());
         Log.e("onCreate: ", Utils.getMac().trim());
         HttpConfig.MAC = Utils.getMac().trim();
-        RetrofitFactory.getInstence().API().getProjectId(requsetProjectId).compose(IOMainThread.composeIO2main()).subscribe(new BaseObserver<ProjectID>() {
+        userInfo = getSharedPreferences("user_info", 0);
+        if(userInfo.getBoolean("isFirst",false)){
+            HttpConfig.id= userInfo.getInt("projectId",0);
+            HttpConfig.derication= userInfo.getString("derication","");
+            getHome();
+        }else {
+            RetrofitFactory.getInstence().API().getProjectId(requsetProjectId).compose(IOMainThread.composeIO2main()).subscribe(new BaseObserver<ProjectID>() {
 
-            @Override
-            protected void onSuccees(BaseEntity<ProjectID> t) {
-                ProjectID data = t.getData();
-                HttpConfig.id= data.getId();
-                HttpConfig.derication= data.getLocation();
-                getHome();
-            }
+                @Override
+                protected void onSuccees(BaseEntity<ProjectID> t) {
+                    ProjectID data = t.getData();
+                    userInfo.edit().putBoolean("isFirst",true).commit();
+                    userInfo.edit().putInt("projectId",data.getId()).commit();
+                    userInfo.edit().putString("derication",data.getLocation()).commit();
+                    HttpConfig.id= data.getId();
+                    HttpConfig.derication= data.getLocation();
+                    getHome();
+                }
 
-            @Override
-            protected void onCodeError(String msg, int codeErrorr) {
-                Log.e("onCodeError: ", msg);
-                textView2.setVisibility(View.VISIBLE);
+                @Override
+                protected void onCodeError(String msg, int codeErrorr) {
+                    Log.e("onCodeError: ", msg);
+                    textView2.setVisibility(View.VISIBLE);
 
-            }
+                }
 
-            @Override
-            protected void onFailure(Throwable e, boolean isNetWorkError) {
-                Log.e("onCodeError: ", e.getMessage());
-                textView2.setVisibility(View.VISIBLE);
-            }
-        });
+                @Override
+                protected void onFailure(Throwable e, boolean isNetWorkError) {
+                    Log.e("onCodeError: ", e.getMessage());
+                    textView2.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+
+
 
     }
     public void getHome(){
