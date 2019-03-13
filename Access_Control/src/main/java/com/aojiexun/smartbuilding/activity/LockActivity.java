@@ -826,20 +826,20 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
                         CardIDBean id_card = realm.where(CardIDBean.class).equalTo("id_card", name).findFirst();
                         long secondTime = System.currentTimeMillis();
                         if (secondTime - firstTime > 2000) {
-                            if(id_card!=null&&!id_card.getRfid_number().equals(card)){
-                                mTts.startSpeaking("身份证与卡号不匹配", mTtsListener);
-                            }
+//                            if(id_card!=null&&!id_card.getRfid_number().equals(card)){
+//                                mTts.startSpeaking("身份证与卡号不匹配", mTtsListener);
+//                            }
                             if(id_card==null){
                                 mTts.startSpeaking("未查询到该人信息", mTtsListener);
                             }
                             firstTime=secondTime;
                         }
 
-                        if(id_card!=null&&!id_card.getRfid_number().equals(card)){
-                            mImageNV21 = null;
-                            realm.close();
-                           return;
-                        }
+//                        if(id_card!=null&&!id_card.getRfid_number().equals(card)){
+//                            mImageNV21 = null;
+//                            realm.close();
+//                           return;
+//                        }
                         if(id_card==null){
                             realm.close();
                             mImageNV21 = null;
