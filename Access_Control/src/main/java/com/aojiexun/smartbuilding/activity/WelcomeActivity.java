@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.aojiexun.smartbuilding.BaseApplication;
 import com.aojiexun.smartbuilding.R;
 import com.aojiexun.smartbuilding.constant.Constant;
+import com.aojiexun.smartbuilding.gpiotest.Gpio;
 import com.aojiexun.smartbuilding.network.BaseEntity;
 import com.aojiexun.smartbuilding.network.BaseObserver;
 import com.aojiexun.smartbuilding.network.HttpConfig;
@@ -61,6 +63,27 @@ public class WelcomeActivity extends Activity {
         Log.e("onCreate: ", Utils.getMac().trim());
         HttpConfig.MAC = Utils.getMac().trim();
         userInfo = getSharedPreferences("user_info", 0);
+        String password = userInfo.getString("password", "");
+        if(TextUtils.isEmpty(password)){
+            userInfo.edit().putString("password", "666666").commit();
+        }
+
+
+//        try {
+//
+//            Gpio.gpioInt("1067");
+//
+//            Thread.sleep(400);
+//
+//            Gpio.set("1067", 48);
+//
+//        } catch (InterruptedException e) {
+//
+//            e.printStackTrace();
+//
+//        }
+//
+//        Gpio.set("1067", 49);
         if(userInfo.getBoolean("isFirst",false)){
             HttpConfig.id= userInfo.getInt("projectId",0);
             HttpConfig.derication= userInfo.getString("derication","");

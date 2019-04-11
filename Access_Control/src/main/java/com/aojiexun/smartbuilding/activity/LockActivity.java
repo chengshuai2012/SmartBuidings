@@ -340,7 +340,6 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 
     EditText code_mumber;
 
-    String pwdmodel = "1";
 
     String cardFrid;
 
@@ -606,7 +605,16 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 
         }
 
-
+        versionName.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                pwdmodel="1";
+                exitAlertDialog1=new ExitAlertDialog1(LockActivity.this);
+                exitAlertDialog1.show();
+                isModify=true;
+                return false;
+            }
+        });
 
         mEngineType = SpeechConstant.TYPE_LOCAL;
 
@@ -623,7 +631,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 
 
     }
-
+boolean isModify=false;
 
 
     /**
@@ -1072,7 +1080,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 
         Log.d(TAG, "AFT_FSDK_GetVersion:" + version.toString() + "," + err.getCode());
 
-
+        exitAlertDialog1 = new ExitAlertDialog1(this);
 
         ASAE_FSDKError error = mAgeEngine.ASAE_FSDK_InitAgeEngine(FaceDB.appid, FaceDB.ag_key);
 
@@ -1456,13 +1464,112 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 
     }
 
+    String  pwdmodel ="1";
+    private class ExitAlertDialog1 extends Dialog implements View.OnClickListener {
+        private Context mContext;
+        private EditText etPwd;
+        private Button btCancel;
+        private Button btConfirm;
+        private TextView texttilt;
+        public ExitAlertDialog1(Context context, int theme) {
+            super(context, theme);
+            mContext = context;
+            initDialog();
+        }
+        public ExitAlertDialog1(Context context) {
+            super(context, R.style.customer_dialog);
+            mContext = context;
+            initDialog();
+        }
+        private void initDialog() {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_exit_confirm, null);
+            setContentView(view);
+            btCancel = (Button) view.findViewById(R.id.btCancel);
+            btConfirm = (Button) view.findViewById(R.id.btConfirm);
+            etPwd = (EditText) view.findViewById(R.id.deviceCode);
+            texttilt=(TextView)view.findViewById(R.id.text_title);
+            btCancel.setOnClickListener(this);
+            btConfirm.setOnClickListener(this);
+        }
+        @Override
+        public void show() {
+            etPwd.setText("");
+            if (pwdmodel=="1"){
 
+            }else if (pwdmodel=="2"){
+                texttilt.setText(R.string.chang_pwd);
+                etPwd.setHint(getResources().getString(R.string.put_new_pwd));
+            }
+            super.show();
+        }
+        String devicepwd;
+        SharedPreferences userInfo;
+        Intent intent;
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btCancel:
+                    this.dismiss();
+                    break;
+                case R.id.btConfirm:
+                    this.dismiss();
+                    if(pwdmodel.equals("1")){
+
+                        String pwd = etPwd.getText().toString().trim();
+                        if (Utils.isEmpty(pwd)) {
+                            ToastUtils.show(mContext, getResources().getString(R.string.put_pwd), ToastUtils.LENGTH_SHORT);
+                            return;
+                        }
+                        String repwd;
+                        try {
+                            repwd = Reservoir.get(Constant.KEY_PASSWORD, String.class);
+                        } catch (Exception e) {
+                            userInfo=getSharedPreferences("user_info",0);
+                            repwd = userInfo.getString("devicepwd","0");
+                        }
+                        if (!pwd.equals(repwd)) {
+                            ToastUtils.show(mContext, getResources().getString(R.string.error_password), ToastUtils.LENGTH_SHORT);
+                            return;
+                        }else {
+                            if(isModify){
+                                pwdmodel ="2";
+                                isModify=false;
+                                exitAlertDialog1=new ExitAlertDialog1(LockActivity.this);
+                                exitAlertDialog1.show();
+                            }else {
+                                startActivity(new Intent(LockActivity.this, BindFaceActivity.class));
+                            }
+
+                        }
+                    }else if (pwdmodel.equals("2")){
+                        userInfo=getSharedPreferences("user_info",0);
+                        String pwd = etPwd.getText().toString().trim();
+                        if (userInfo.getString("devicepwd","").toString().trim()==pwd) {
+                            ToastUtils.show(mContext, getResources().getString(R.string.same_pwd), ToastUtils.LENGTH_SHORT);
+                        }else {
+                            userInfo.edit().putString("devicepwd",pwd).commit();
+                            ToastUtils.show(mContext, getResources().getString(R.string.chang_pwd_successful), ToastUtils.LENGTH_SHORT);
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+    ExitAlertDialog1 exitAlertDialog1;
 
     @OnClick(R.id.bindface)
 
     public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.bindface:
+                pwdmodel ="1";
+                isModify=false;
+                exitAlertDialog1=new ExitAlertDialog1(this);
+                exitAlertDialog1.show();
+                break;
+        }
 
-        startActivity(new Intent(this, BindFaceActivity.class));
+
 
     }
 
@@ -1724,7 +1831,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 
                             timeCreate = d;
 
-                            // image = imageToBase64(Environment.getExternalStorageDirectory() + "/faceIn.jpg");
+                             image = imageToBase64(Environment.getExternalStorageDirectory() + "/faceIn.jpg");
 
                             //  faceInController.report(name, image, timeCreate);
 

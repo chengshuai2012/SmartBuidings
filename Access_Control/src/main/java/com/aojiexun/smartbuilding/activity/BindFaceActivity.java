@@ -487,7 +487,23 @@ public class BindFaceActivity extends BaseAppCompatActivity implements View.OnTo
                 break;
             case R.id.bind_keypad_ok:
                 phoneNum = etPhoneNum.getText().toString().trim();
-                bindController.check(phoneNum);
+                if(!TextUtils.isEmpty(phoneNum)&&phoneNum.length()==18){
+                    setActivtyChange("3");
+                    mCameraRotate = 0;
+                    mCameraMirror = false;
+                    mWidth = 640;
+                    mHeight = 480;
+                    mFormat = ImageFormat.NV21;
+                    svCameraSurfaceview .setOnTouchListener(this);
+                    mGLSurfaceView = (CameraSurfaceView) findViewById(R.id.surfaceView);
+                    mGLSurfaceView.setOnCameraListener(this);
+                    mGLSurfaceView.setupGLSurafceView(svCameraSurfaceview, true, mCameraMirror, mCameraRotate);
+                    mGLSurfaceView.debug_print_fps(false, false);
+                    faceRegister.setVisibility(View.VISIBLE);
+                    layout_bing_phone.setVisibility(View.INVISIBLE);
+                }else {
+                    mTts.startSpeaking("请输入正确的身份证号",mTtsListener);
+                }
                 break;
             case R.id.face_back:
              finish();
