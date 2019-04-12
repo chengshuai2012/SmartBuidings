@@ -20,7 +20,7 @@ import static android.content.ContentValues.TAG;
 
 public abstract class FileDownLoadSubscriber extends DisposableSubscriber<ResponseBody> {
     private File file;
-
+    public static int DownloadCount = 0;
     public FileDownLoadSubscriber(File file) {
         this.file = file;
     }
@@ -38,6 +38,7 @@ public abstract class FileDownLoadSubscriber extends DisposableSubscriber<Respon
 
     @Override
     public void onComplete() {
+        DownloadCount++;
         Log.e(TAG, "onComplete: " );
     }
 

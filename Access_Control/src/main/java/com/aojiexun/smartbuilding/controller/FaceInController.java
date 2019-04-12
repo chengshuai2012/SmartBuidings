@@ -45,6 +45,7 @@ public class FaceInController {
 
         void onReportNotSuccessError();
 
+        void onComplete();
 
     }
 
@@ -75,6 +76,7 @@ public class FaceInController {
                     @Override
                     public void onComplete() {
                         super.onComplete();
+                        listener.onComplete();
                     }
 
                 });

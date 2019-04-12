@@ -45,6 +45,7 @@ import com.aojiexun.smartbuilding.component.MyMessageReceiver;
 import com.aojiexun.smartbuilding.constant.Constant;
 import com.aojiexun.smartbuilding.controller.FaceInController;
 import com.aojiexun.smartbuilding.gpiotest.Gpio;
+import com.aojiexun.smartbuilding.network.FileDownLoadSubscriber;
 import com.aojiexun.smartbuilding.request.NotSuccess;
 import com.aojiexun.smartbuilding.response.AllFace;
 import com.aojiexun.smartbuilding.response.CardIDBean;
@@ -95,6 +96,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -414,12 +417,21 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 
         realm.close();
     }
-
+    ArrayList<AllFace> allFaceList = new ArrayList<>();
     @Override
     public void getAllFaceSuccess(ArrayList<AllFace> allFaces) {
-        for (int x = 0; x < allFaces.size(); x++) {
-            faceInController.downloadFile(allFaces.get(x).getId_card(), allFaces.get(x).getFace_url());
+        allFaceList.addAll(allFaces);
+        if(allFaces.size()>8){
+            for(int x=0;x<8;x++){
+                faceInController.downloadFile(allFaces.get(x).getId_card(), allFaces.get(x).getFace_url());
+            }
+        }else {
+            for(int x=0;x<allFaces.size();x++){
+                faceInController.downloadFile(allFaces.get(x).getId_card(), allFaces.get(x).getFace_url());
+            }
         }
+
+
     }
 
     @Override
@@ -476,6 +488,17 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 
     @Override
     public void onReportNotSuccessError() {
+
+    }
+    int Count = 0;
+    @Override
+    public void onComplete() {
+        Count++;
+        if(Count>=8){
+            if(Count<allFaceList.size()){
+                faceInController.downloadFile(allFaceList.get(Count).getId_card(), allFaceList.get(Count).getFace_url());
+            }
+        }
 
     }
 
