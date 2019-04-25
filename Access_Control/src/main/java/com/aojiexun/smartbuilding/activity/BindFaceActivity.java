@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
@@ -382,7 +383,7 @@ public class BindFaceActivity extends BaseAppCompatActivity implements View.OnTo
     @Override
     public void checkInSuccess(PersonBean personBean) {
         setActivtyChange("3");
-        mCameraRotate = 0;
+        mCameraRotate = 90;
         mCameraMirror = false;
         mWidth = 640;
         mHeight = 480;
@@ -498,8 +499,13 @@ public class BindFaceActivity extends BaseAppCompatActivity implements View.OnTo
             case R.id.take_photo:
                 ExtByteArrayOutputStream ops = new ExtByteArrayOutputStream();
                 YuvImage yuv = new YuvImage(clone, ImageFormat.NV21, 640, 480, null);
+
                 yuv.compressToJpeg(new Rect(0, 0, 640, 480), 85, ops);
-                final Bitmap bitmap = BitmapFactory.decodeByteArray(ops.getByteArray(), 0, ops.getByteArray().length);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(ops.getByteArray(), 0, ops.getByteArray().length);
+                Matrix matrix = new Matrix();
+                matrix.preRotate(90);
+                bitmap = Bitmap.createBitmap(bitmap ,0,0, bitmap .getWidth(), bitmap
+                        .getHeight(),matrix,true);
                 try {
                     File file= new File(Environment.getExternalStorageDirectory()+"/register.jpg");
                     if(file.exists()){

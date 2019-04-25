@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
@@ -263,18 +264,18 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
                         thridTime = secondTime;
                         mTts.startSpeaking(getResources().getString(R.string.successful_open), mTtsListener);
                     }
-                    SharedPreferences sharedPreferences = getSharedPreferences("user_info", 0);
-                    gpiostr = sharedPreferences.getString("gpiotext", "");
-                    Logger.e("LockAcitvity" + "===========" + gpiostr);
-                    try {
-                        Gpio.gpioInt(gpiostr);
-                        Thread.sleep(400);
-                        Gpio.set(gpiostr, 48);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    Gpio.set(gpiostr, 49);
-                   // DoolLockUtil.Instance().openDoorDelay(5 * 1000);
+//                    SharedPreferences sharedPreferences = getSharedPreferences("user_info", 0);
+//                    gpiostr = sharedPreferences.getString("gpiotext", "");
+//                    Logger.e("LockAcitvity" + "===========" + gpiostr);
+//                    try {
+//                        Gpio.gpioInt(gpiostr);
+//                        Thread.sleep(400);
+//                        Gpio.set(gpiostr, 48);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Gpio.set(gpiostr, 49);
+                    DoolLockUtil.Instance().openDoorDelay(5 * 1000);
 
                     break;
 
@@ -545,7 +546,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
     protected void initViews(Bundle savedInstanceState) {
         mCameraID = Camera.CameraInfo.CAMERA_FACING_BACK;
         //NewLockerSerialportUtil_2.init(this, PATH, BAUDRATE, this);
-        mCameraRotate = 0;
+        mCameraRotate = 90;
         mCameraMirror = false;
         mWidth = 640;
         mHeight = 480;
@@ -608,18 +609,20 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
     protected void onResume() {
         Logger.e("resume");
         userinfo = getSharedPreferences("user_info", MODE_MULTI_PROCESS);
-        String gpio = userinfo.getString("gpiotext", null);
+       // String gpio = userinfo.getString("gpiotext", null);
         deviceId = userinfo.getString("deviceId", "");
-        if (gpio == null) {
-            userinfo.edit().putString("gpiotext", "1067").commit();
-        }
+//        if (gpio == null) {
+//            userinfo.edit().putString("gpiotext", "1067").commit();
+//        }
         if (isWorkFinish) {
             //  workHandler.sendEmptyMessage(19);
             isWorkFinish = false;
         }
-        gpiotext = userinfo.getString(gpiotext, "");
-        Gpio.gpioInt(gpiotext);
-        Gpio.set(gpiotext, 48);
+
+        CameraUtil.turnOnLight();
+//        gpiotext = userinfo.getString(gpiotext, "");
+//        Gpio.gpioInt(gpiotext);
+//        Gpio.set(gpiotext, 48);
         super.onResume();
 
 
@@ -649,6 +652,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
             // 退出时释放连接
             mTts.destroy();
         }
+        CameraUtil.turnOffLight();
         realm.close();
         unregisterReceiver(mesReceiver);
         if (Camera.getNumberOfCameras() != 0) {
@@ -713,7 +717,11 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
         ExtByteArrayOutputStream ops = new ExtByteArrayOutputStream();
         YuvImage yuv = new YuvImage(clone, ImageFormat.NV21, 640, 480, null);
         yuv.compressToJpeg(new Rect(0, 0, 640, 480), 85, ops);
-        final Bitmap bitmap = BitmapFactory.decodeByteArray(ops.getByteArray(), 0, ops.getByteArray().length);
+         Bitmap bitmap = BitmapFactory.decodeByteArray(ops.getByteArray(), 0, ops.getByteArray().length);
+        Matrix matrix = new Matrix();
+        matrix.preRotate(90);
+        bitmap = Bitmap.createBitmap(bitmap ,0,0, bitmap .getWidth(), bitmap
+                .getHeight(),matrix,true);
         try {
             File file = new File(Environment.getExternalStorageDirectory() + "/faceIn.jpg");
             if (file.exists()) {
