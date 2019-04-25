@@ -107,6 +107,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" scope="TEST" name="com.android.support.test:exposed-instrumentation-api-publish-0.5" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:multidex-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\hanma_fcd_sdk.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\facerecognition.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="io.reactivex:rxjava:1.0.4@jar" level="project" />
     <orderEntry type="library" exported="" name="com.orhanobut:logger-1.15" level="project" />

@@ -78,6 +78,8 @@ import com.guo.android_extend.tools.CameraHelper;
 import com.guo.android_extend.widget.CameraFrameData;
 import com.guo.android_extend.widget.CameraGLSurfaceView;
 import com.guo.android_extend.widget.CameraSurfaceView;
+import com.hanma.fcd.CameraUtil;
+import com.hanma.fcd.DoolLockUtil;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechConstant;
@@ -272,9 +274,10 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
                         e.printStackTrace();
                     }
                     Gpio.set(gpiostr, 49);
-
+                   // DoolLockUtil.Instance().openDoorDelay(5 * 1000);
 
                     break;
+
 
             }
         }
@@ -420,16 +423,22 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
     ArrayList<AllFace> allFaceList = new ArrayList<>();
     @Override
     public void getAllFaceSuccess(ArrayList<AllFace> allFaces) {
+        Log.e(TAG, "getAllFaceSuccess: "+allFaces.size());
         allFaceList.addAll(allFaces);
-        if(allFaces.size()>8){
-            for(int x=0;x<8;x++){
-                faceInController.downloadFile(allFaces.get(x).getId_card(), allFaces.get(x).getFace_url());
-            }
-        }else {
-            for(int x=0;x<allFaces.size();x++){
-                faceInController.downloadFile(allFaces.get(x).getId_card(), allFaces.get(x).getFace_url());
-            }
+        //int size = ((BaseApplication) getApplicationContext().getApplicationContext()).mFaceDB.mFaceList.size();
+       // Log.e(TAG, "getAllFaceSuccess: "+size);
+//        if(allFaces.size()==size){
+//
+//        }else if(allFaces.size()>size){
+//            Count=size;
+//            faceInController.downloadFile(allFaces.get(Count).getId_card(), allFaces.get(Count).getFace_url());
+//        }
+        allFaceList.addAll(allFaces);
+        if(allFaces.size()>0){
+            faceInController.downloadFile(allFaces.get(0).getId_card(), allFaces.get(0).getFace_url());
         }
+
+
 
 
     }
@@ -494,11 +503,13 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
     @Override
     public void onComplete() {
         Count++;
-        if(Count>=8){
             if(Count<allFaceList.size()){
                 faceInController.downloadFile(allFaceList.get(Count).getId_card(), allFaceList.get(Count).getFace_url());
+            }else {
+
+
             }
-        }
+
 
     }
 
@@ -533,7 +544,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
     @Override
     protected void initViews(Bundle savedInstanceState) {
         mCameraID = Camera.CameraInfo.CAMERA_FACING_BACK;
-        NewLockerSerialportUtil_2.init(this, PATH, BAUDRATE, this);
+        //NewLockerSerialportUtil_2.init(this, PATH, BAUDRATE, this);
         mCameraRotate = 0;
         mCameraMirror = false;
         mWidth = 640;
@@ -579,6 +590,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 
     @Override
     protected void initListeners() {
+
     }
 
     @Override
@@ -588,6 +600,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 
     @Override
     protected void initToolbar(Bundle savedInstanceState) {
+
     }
 
 
@@ -607,7 +620,6 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
         gpiotext = userinfo.getString(gpiotext, "");
         Gpio.gpioInt(gpiotext);
         Gpio.set(gpiotext, 48);
-
         super.onResume();
 
 
@@ -628,6 +640,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
         Logger.e("LockActivity" + "onDestroy");
         // TTSUtils.getInstance().release();
         if (usbDevConn == null) {
+
         } else {
             usbDevConn.close();
         }
@@ -845,41 +858,46 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
                         }
                     }
                     if (max > 0.65f) {
-                        Realm realm = Realm.getDefaultInstance();
-                        CardIDBean id_card = realm.where(CardIDBean.class).equalTo("id_card", name).findFirst();
-                        long secondTime = System.currentTimeMillis();
-                        if (secondTime - firstTime > 2000) {
+//                        Realm realm = Realm.getDefaultInstance();
+//                        CardIDBean id_card = realm.where(CardIDBean.class).equalTo("id_card", name).findFirst();
+//                        long secondTime = System.currentTimeMillis();
+ //                       if (secondTime - firstTime > 2000) {
 //                            if(id_card!=null&&!id_card.getRfid_number().equals(card)){
 //                                mTts.startSpeaking("身份证与卡号不匹配", mTtsListener);
 //                            }
-                            if(id_card==null){
-                                mTts.startSpeaking("未查询到该人信息", mTtsListener);
-                            }
-                            firstTime=secondTime;
-                        }
+//                            if(id_card==null){
+//                                mTts.startSpeaking("未查询到该人信息", mTtsListener);
+//                            }
+//                            firstTime=secondTime;
+ //                       }
 
 //                        if(id_card!=null&&!id_card.getRfid_number().equals(card)){
 //                            mImageNV21 = null;
 //                            realm.close();
 //                           return;
 //                        }
-                        if(id_card==null){
-                            realm.close();
-                            mImageNV21 = null;
-                            return;
-                        }
-                        realm.close();
+//                        if(id_card==null){
+//                            realm.close();
+//                            mImageNV21 = null;
+//                            return;
+//                        }
+//                        realm.close();
                         workHandler.sendEmptyMessage(101);
-                        saveJpg();
+                        long secondTime = System.currentTimeMillis();
+                        if (secondTime - firstTime > 2000) {
+                            firstTime=secondTime;
+                            saveJpg();
+                            long createTime = System.currentTimeMillis()+8*60*60*1000;
+                            SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Long time1=new Long(createTime);
+                            String d = format.format(time1);
+                            idCard=name;
+                            timeCreate =d;
+                            image = imageToBase64(Environment.getExternalStorageDirectory() + "/faceIn.jpg");
+                            faceInController.report(name,image,timeCreate);
 
-                        long createTime = System.currentTimeMillis()+8*60*60*1000;
-                        SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Long time1=new Long(createTime);
-                        String d = format.format(time1);
-                        idCard=name;
-                        timeCreate =d;
-                        image = imageToBase64(Environment.getExternalStorageDirectory() + "/faceIn.jpg");
-                        faceInController.report(name,image,timeCreate);
+                        }
+
                         isReportNotSuccess=false;
                     } else {
                         recindex = recindex + 1;

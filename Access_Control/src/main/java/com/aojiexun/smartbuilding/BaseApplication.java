@@ -66,7 +66,7 @@ public class BaseApplication extends MultiDexApplication  {
         ourInstance = this;
         mFaceDB = new FaceDB(Environment.getExternalStorageDirectory().getAbsolutePath() + "/faceFile");
          context=getApplicationContext();
-        Thread.setDefaultUncaughtExceptionHandler(restartHandler);
+        //Thread.setDefaultUncaughtExceptionHandler(restartHandler);
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle bundle) {

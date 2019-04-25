@@ -18,10 +18,10 @@ import static android.content.ContentValues.TAG;
  */
 
 
-public abstract class FileDownLoadSubscriber extends DisposableSubscriber<ResponseBody> {
+public abstract class FileDownLoadSubscriber1 extends DisposableSubscriber<ResponseBody> {
     private File file;
     public static int DownloadCount = 0;
-    public FileDownLoadSubscriber(File file) {
+    public FileDownLoadSubscriber1(File file) {
         this.file = file;
     }
 
@@ -45,9 +45,9 @@ public abstract class FileDownLoadSubscriber extends DisposableSubscriber<Respon
     private class WriteFile extends AsyncTask<String, Long, Boolean> {
         private File file;
         private ResponseBody body;
-        private FileDownLoadSubscriber subscriber;
+        private FileDownLoadSubscriber1 subscriber;
 
-        public WriteFile(File file, ResponseBody body, FileDownLoadSubscriber subscriber) {
+        public WriteFile(File file, ResponseBody body, FileDownLoadSubscriber1 subscriber) {
             this.file = file;
             this.body = body;
             this.subscriber = subscriber;
@@ -56,7 +56,7 @@ public abstract class FileDownLoadSubscriber extends DisposableSubscriber<Respon
         @Override
         protected Boolean doInBackground(String... strings) {
             InputStream input = null;
-            byte[] buf = new byte[24576];
+            byte[] buf = new byte[2048];
             int len = 0;
             FileOutputStream fos = null;
             try{
@@ -102,10 +102,15 @@ public abstract class FileDownLoadSubscriber extends DisposableSubscriber<Respon
         protected void onPostExecute(Boolean result) {
             if (result){
                 subscriber.onProgress(file.length(), file.length());
+                subscriber.onSuccess(file);
             } else {
                 subscriber.onFail("下载失败");
             }
         }
+    }
+
+    public void onSuccess(File file){
+        installAPK("/sdcard/lingxi.apk");
     }
 
     public void onFail(String msg){

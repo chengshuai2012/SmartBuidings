@@ -77,6 +77,7 @@ public class FaceInController {
                     public void onComplete() {
                         super.onComplete();
                         listener.onComplete();
+                        System.gc();
                     }
 
                 });
