@@ -5,7 +5,6 @@ import android.os.Environment;
 import com.aojiexun.smartbuilding.network.BaseEntity;
 import com.aojiexun.smartbuilding.network.BaseObserver;
 import com.aojiexun.smartbuilding.network.BaseService;
-import com.aojiexun.smartbuilding.network.FileDownLoadSubscriber;
 import com.aojiexun.smartbuilding.network.HttpConfig;
 import com.aojiexun.smartbuilding.network.IOMainThread;
 import com.aojiexun.smartbuilding.network.RetrofitFactory;
