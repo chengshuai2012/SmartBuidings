@@ -65,7 +65,7 @@ public class WelcomeActivity extends Activity {
         userInfo = getSharedPreferences("user_info", 0);
         String password = userInfo.getString("password", "");
         if(TextUtils.isEmpty(password)){
-            userInfo.edit().putString("password", "666666").commit();
+            userInfo.edit().putString("password", "lckjzq").commit();
         }
 
 
