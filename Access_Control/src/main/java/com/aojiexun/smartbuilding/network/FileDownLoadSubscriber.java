@@ -55,7 +55,7 @@ public abstract class FileDownLoadSubscriber extends DisposableSubscriber<Respon
         @Override
         protected Boolean doInBackground(String... strings) {
             InputStream input = null;
-            byte[] buf = new byte[2048];
+            byte[] buf = new byte[24576];
             int len = 0;
             FileOutputStream fos = null;
             try{

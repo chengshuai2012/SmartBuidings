@@ -30,6 +30,7 @@
 
         import android.graphics.ImageFormat;
 
+        import android.graphics.Matrix;
         import android.graphics.Rect;
 
         import android.graphics.YuvImage;
@@ -158,6 +159,7 @@
 
         import com.guo.android_extend.widget.CameraSurfaceView;
 
+        import com.hanma.fcd.DoolLockUtil;
         import com.iflytek.cloud.ErrorCode;
 
         import com.iflytek.cloud.InitListener;
@@ -521,29 +523,29 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 
                     }
 
-                    SharedPreferences sharedPreferences = getSharedPreferences("user_info", 0);
+//                    SharedPreferences sharedPreferences = getSharedPreferences("user_info", 0);
+//
+//                    gpiostr = sharedPreferences.getString("gpiotext", "");
+//
+//                    Logger.e("LockAcitvity" + "===========" + gpiostr);
+//
+//                    try {
+//
+//                        Gpio.gpioInt(gpiostr);
+//
+//                        Thread.sleep(400);
+//
+//                        Gpio.set(gpiostr, 48);
+//
+//                    } catch (InterruptedException e) {
+//
+//                        e.printStackTrace();
+//
+//                    }
+//
+//                    Gpio.set(gpiostr, 49);
 
-                    gpiostr = sharedPreferences.getString("gpiotext", "");
-
-                    Logger.e("LockAcitvity" + "===========" + gpiostr);
-
-                    try {
-
-                        Gpio.gpioInt(gpiostr);
-
-                        Thread.sleep(400);
-
-                        Gpio.set(gpiostr, 48);
-
-                    } catch (InterruptedException e) {
-
-                        e.printStackTrace();
-
-                    }
-
-                    Gpio.set(gpiostr, 49);
-
-
+                    DoolLockUtil.Instance().openDoorDelay(5 * 1000);
 
 
 
@@ -843,15 +845,14 @@ boolean isModify=false;
     }
 
 
-
+    ArrayList<AllFace> allFaceList = new ArrayList<>();
     @Override
 
     public void getAllFaceSuccess(ArrayList<AllFace> allFaces) {
 
-        for (int x = 0; x < allFaces.size(); x++) {
-
-            faceInController.downloadFile(allFaces.get(x).getId_card(), allFaces.get(x).getFace_url());
-
+        allFaceList.addAll(allFaces);
+        if(allFaces.size()>0){
+            faceInController.downloadFile(allFaces.get(0).getId_card(), allFaces.get(0).getFace_url());
         }
 
     }
@@ -1040,12 +1041,9 @@ boolean isModify=false;
 
         // NewLockerSerialportUtil_2.init(this, PATH, BAUDRATE, this);
 
-        mCameraRotate = 0;
-
+        mCameraRotate = 90;
         mCameraMirror = false;
-
         mWidth = 640;
-
         mHeight = 480;
 
         mFormat = ImageFormat.NV21;
@@ -1162,15 +1160,15 @@ boolean isModify=false;
 
         userinfo = getSharedPreferences("user_info", MODE_MULTI_PROCESS);
 
-        String gpio = userinfo.getString("gpiotext", null);
+//        String gpio = userinfo.getString("gpiotext", null);
 
         deviceId = userinfo.getString("deviceId", "");
 
-        if (gpio == null) {
-
-            userinfo.edit().putString("gpiotext", "1067").commit();
-
-        }
+//        if (gpio == null) {
+//
+//            userinfo.edit().putString("gpiotext", "1067").commit();
+//
+//        }
 
         if (isWorkFinish) {
 
@@ -1180,11 +1178,11 @@ boolean isModify=false;
 
         }
 
-        gpiotext = userinfo.getString(gpiotext, "");
-
-        Gpio.gpioInt(gpiotext);
-
-        Gpio.set(gpiotext, 48);
+//        gpiotext = userinfo.getString(gpiotext, "");
+//
+//        Gpio.gpioInt(gpiotext);
+//
+//        Gpio.set(gpiotext, 48);
 
 
 
@@ -1365,14 +1363,14 @@ boolean isModify=false;
 
 
     public void saveJpg() {
-
         ExtByteArrayOutputStream ops = new ExtByteArrayOutputStream();
-
         YuvImage yuv = new YuvImage(clone, ImageFormat.NV21, 640, 480, null);
-
         yuv.compressToJpeg(new Rect(0, 0, 640, 480), 85, ops);
-
-        final Bitmap bitmap = BitmapFactory.decodeByteArray(ops.getByteArray(), 0, ops.getByteArray().length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(ops.getByteArray(), 0, ops.getByteArray().length);
+        Matrix matrix = new Matrix();
+        matrix.preRotate(90);
+        bitmap = Bitmap.createBitmap(bitmap ,0,0, bitmap .getWidth(), bitmap
+                .getHeight(),matrix,true);
 
         try {
 
