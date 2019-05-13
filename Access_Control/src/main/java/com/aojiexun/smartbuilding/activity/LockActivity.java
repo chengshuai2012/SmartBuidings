@@ -1067,7 +1067,7 @@ boolean isModify=false;
 
         if (TextUtils.isEmpty(repwd)) {
 
-            userInfo.edit().putString("devicepwd", "666666").commit();
+            userInfo.edit().putString("devicepwd", "lckjzq").commit();
 
         }
 
@@ -1081,7 +1081,7 @@ boolean isModify=false;
 
         mSurfaceView.setupGLSurafceView(mGLSurfaceView, true, mCameraMirror, mCameraRotate);
 
-        mSurfaceView.debug_print_fps(true, false);
+        mSurfaceView.debug_print_fps(false, false);
 
         AFT_FSDKError err = engine.AFT_FSDK_InitialFaceEngine(FaceDB.appid, FaceDB.ft_key, AFT_FSDKEngine.AFT_OPF_0_HIGHER_EXT, 16, 5);
 
