@@ -165,6 +165,8 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
     TextView head_text_03;
     @Bind(R.id.versionName)
     TextView versionName;
+    @Bind(R.id.bindface)
+    TextView bindface;
     String deviceId;
     BaseApplication baseApplication;
     String gpiostr;
@@ -307,7 +309,6 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
         mEngineType = SpeechConstant.TYPE_LOCAL;
         mTts.startSpeaking("初始化成功", mTtsListener);
         realm = Realm.getDefaultInstance();

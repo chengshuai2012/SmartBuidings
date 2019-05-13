@@ -317,6 +317,7 @@
     android:id="@+id/face_register"
     android:orientation="vertical"
     android:visibility="gone"
+    android:gravity="center"
     >
   <com.aojiexun.smartbuilding.view.CameraSurfaceView
       android:id="@+id/surfaceView"
@@ -326,8 +327,8 @@
   <com.aojiexun.smartbuilding.view.CameraGLSurfaceView
       android:layout_marginTop="30dp"
       android:id="@+id/sv_camera_surfaceview"
-      android:layout_width="500dp"
-      android:layout_height="400dp"
+      android:layout_width="450dp"
+      android:layout_height="500dp"
       android:layout_centerInParent="true"/>
 
   <LinearLayout

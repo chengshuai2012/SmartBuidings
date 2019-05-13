@@ -40,7 +40,13 @@ public class WelcomeActivity extends Activity {
     BaseApplication baseApplication;
     ConnectivityManager connectivityManager;
     private SharedPreferences userInfo;
-
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            getHome();
+    }
+    };
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +70,7 @@ public class WelcomeActivity extends Activity {
         if(userInfo.getBoolean("isFirst",false)){
             HttpConfig.id= userInfo.getInt("projectId",0);
             HttpConfig.derication= userInfo.getString("derication","");
-            getHome();
+            handler.sendEmptyMessageDelayed(0,3000);
         }else {
             RetrofitFactory.getInstence().API().getProjectId(requsetProjectId).compose(IOMainThread.composeIO2main()).subscribe(new BaseObserver<ProjectID>() {
 
@@ -76,7 +82,7 @@ public class WelcomeActivity extends Activity {
                     userInfo.edit().putString("derication",data.getLocation()).commit();
                     HttpConfig.id= data.getId();
                     HttpConfig.derication= data.getLocation();
-                    getHome();
+                    handler.sendEmptyMessageDelayed(0,3000);
                 }
 
                 @Override
