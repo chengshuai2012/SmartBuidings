@@ -159,6 +159,7 @@
 
         import com.guo.android_extend.widget.CameraSurfaceView;
 
+        import com.hanma.fcd.CameraUtil;
         import com.hanma.fcd.DoolLockUtil;
         import com.iflytek.cloud.ErrorCode;
 
@@ -1181,7 +1182,7 @@ boolean isModify=false;
 //            userinfo.edit().putString("gpiotext", "1067").commit();
 //
 //        }
-
+        CameraUtil.turnOnLight();
         if (isWorkFinish) {
 
             //  workHandler.sendEmptyMessage(19);
@@ -1243,7 +1244,7 @@ boolean isModify=false;
             usbDevConn.close();
 
         }
-
+        CameraUtil.turnOffLight();
         if (null != mTts) {
 
             mTts.stopSpeaking();
@@ -1773,7 +1774,7 @@ boolean isModify=false;
 
                     }
 
-                    if (max > 0.75f) {
+                    if (max > 0.65f) {
 
 //                                Realm realm = Realm.getDefaultInstance();
 
