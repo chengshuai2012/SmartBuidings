@@ -696,7 +696,19 @@ boolean isModify=false;
 
     }
 
+    int Count = 0;
+    @Override
+    public void onComplete() {
+        Count++;
+        if(Count<allFaceList.size()){
+            faceInController.downloadFile(allFaceList.get(Count).getId_card(), allFaceList.get(Count).getFace_url());
+        }else {
 
+
+        }
+
+
+    }
 
     //获取发音人资源路径
 

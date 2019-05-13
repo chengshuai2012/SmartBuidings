@@ -29,7 +29,7 @@ public class FaceInController {
 
     public interface FaceInControllerListener {
 
-        void onMainErrorCode(String msg,int errorCode);
+        void onMainErrorCode(String msg, int errorCode);
 
         void onMainFail(Throwable e, boolean isNetWork);
 
@@ -45,6 +45,7 @@ public class FaceInController {
 
         void onReportNotSuccessError();
 
+        void onComplete();
 
     }
 
@@ -70,11 +71,14 @@ public class FaceInController {
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
+                        listener.onComplete();
                     }
 
                     @Override
                     public void onComplete() {
                         super.onComplete();
+                        listener.onComplete();
+                        System.gc();
                     }
 
                 });
