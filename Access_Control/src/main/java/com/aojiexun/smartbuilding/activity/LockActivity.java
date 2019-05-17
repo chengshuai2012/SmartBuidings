@@ -546,7 +546,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
 //
 //                    Gpio.set(gpiostr, 49);
 
-                    DoolLockUtil.Instance().openDoorDelay(5 * 1000);
+                    DoolLockUtil.Instance().openDoorDelay(1 * 1000);
 
 
 

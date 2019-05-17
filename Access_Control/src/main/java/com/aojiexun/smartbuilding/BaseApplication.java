@@ -25,7 +25,6 @@ import com.iflytek.cloud.SpeechUtility;
 
 
 import com.orhanobut.logger.Logger;
-import com.umeng.analytics.MobclickAgent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Calendar;
@@ -112,7 +111,6 @@ public class BaseApplication extends MultiDexApplication  {
         startService(intent);
         ifspeaking();
         initCloudChannel(this);
-        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
         handler.sendEmptyMessage(1);
     }
     public static final String ACTION_UPDATEUI = "com.link.cloud.updateTiem";

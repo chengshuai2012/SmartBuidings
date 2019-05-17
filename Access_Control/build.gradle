@@ -49,6 +49,11 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+    dexOptions {
+
+        javaMaxHeapSize "4g"
+
+    }
     buildTypes {
         release {
             minifyEnabled true
@@ -107,8 +112,6 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.0'
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
-    // Google
-    compile 'com.android.support:multidex:1.0.1'
     compile 'com.google.code.gson:gson:2.7'
     // retrofit
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -130,20 +133,12 @@ dependencies {
     compile 'com.github.dmytrodanylyk.shadow-layout:library:1.0.3'
     //NativeLogger是Android平台一套日志管理框架
     compile 'com.github.hijesse:android-logger:2.0.0'
-    //友盟统计
-    compile 'com.umeng.analytics:analytics:latest.integration'
-    //    compile files('D:/work/S1VipManages-master/native/libs/android-support-multidex.jar')
-    compile files('libs/android-support-multidex.jar')
     compile files('libs/Msc.jar')
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile files('libs/armeabi-v7a/mockable-android-24.jar')
     compile files('libs/alicloud-android-push-sdk-3.0.12.jar')
     //添加gif动图
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.6'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
     compile 'com.alibaba:fastjson:1.2.12'
     compile files('libs/apache-commons-lang.jar')
     compile 'com.guo.android_extend:android-extend:1.0.5'

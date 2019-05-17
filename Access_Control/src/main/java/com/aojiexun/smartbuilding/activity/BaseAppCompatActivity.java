@@ -42,7 +42,6 @@ import com.aojiexun.smartbuilding.R;
 import com.aojiexun.smartbuilding.utils.ToastUtils;
 import com.aojiexun.smartbuilding.view.ProgressHUD;
 
-import com.umeng.analytics.MobclickAgent;
 import butterknife.ButterKnife;
 /**
  * Description：BaseAppCompatActivity
@@ -192,7 +191,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+
     }
 
     @Override
@@ -201,7 +200,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
 //        if (countDownTimer!=null){
 //            countDownTimer.cancel();
 //        }
-        MobclickAgent.onPause(this);
+
     }
 
     /**

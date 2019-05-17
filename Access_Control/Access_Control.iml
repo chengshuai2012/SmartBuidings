@@ -80,22 +80,31 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-runtime-classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-safeguard" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-verifier" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-resources" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/reload-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/restart-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/split-apk" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="com.android.support:multidex-1.0.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="com.android.support.test:exposed-instrumentation-api-publish-0.5" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-fragment-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\hanma_fcd_sdk.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\facerecognition.jar:unspecified@jar" level="project" />
@@ -104,7 +113,6 @@
     <orderEntry type="library" exported="" name="com.squareup.okhttp3:logging-interceptor:3.4.1@jar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\facedetection.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-base-8.4.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="com.squareup:javawriter:2.1.1@jar" level="project" />
     <orderEntry type="library" exported="" name="com.squareup.okio:okio:1.11.0@jar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\genderestimation.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:animated-vector-drawable-25.0.0" level="project" />
@@ -114,18 +122,13 @@
     <orderEntry type="library" exported="" scope="TEST" name="org.hamcrest:hamcrest-core:1.3@jar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\ageestimation.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\dom4j-1.6.1.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="com.android.support.test.espresso:espresso-core-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\armeabi-v7a\mockable-android-24.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-core-utils-25.0.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="com.android.support.test:rules-0.5" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:appcompat-v7-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="com.github.hijesse:android-logger-2.0.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="org.hamcrest:hamcrest-integration:1.3@jar" level="project" />
     <orderEntry type="library" exported="" name="com.google.code.findbugs:jsr305:1.3.9@jar" level="project" />
     <orderEntry type="library" exported="" name="org.reactivestreams:reactive-streams:1.0.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.squareup.retrofit2:adapter-rxjava2:2.2.0@jar" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="com.android.support.test.espresso:espresso-idling-resource-2.2.2" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="javax.annotation:javax.annotation-api:1.2@jar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\httpclient.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.squareup.retrofit2:retrofit:2.2.0@jar" level="project" />
     <orderEntry type="library" exported="" name="pl.droidsonroids.gif:android-gif-drawable-1.2.6" level="project" />
@@ -150,7 +153,6 @@
     <orderEntry type="library" exported="" name="com.jakewharton:disklrucache:2.0.2@jar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\Msc.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.google.code.gson:gson:2.7@jar" level="project" />
-    <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\android-support-multidex.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.jakewharton:butterknife:7.0.1@jar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\alicloud-android-push-sdk-3.0.12.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.squareup.retrofit2:converter-gson:2.1.0@jar" level="project" />
@@ -159,11 +161,8 @@
     <orderEntry type="library" exported="" name="commons-io:commons-io:2.4@jar" level="project" />
     <orderEntry type="library" exported="" name="io.reactivex.rxjava2:rxandroid-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="com.squareup.okhttp3:okhttp:3.6.0@jar" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="org.hamcrest:hamcrest-library:1.3@jar" level="project" />
     <orderEntry type="library" exported="" name="io.realm:realm-annotations:3.7.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:transition-25.0.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="com.android.support.test:runner-0.5" level="project" />
-    <orderEntry type="library" exported="" name="com.umeng.analytics:analytics:6.1.4@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-compat-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:C.\Users\chengshuai\AndroidStudioProjects\SmartBuidings\Access_Control\libs\hurraylibs.jar:unspecified@jar" level="project" />
