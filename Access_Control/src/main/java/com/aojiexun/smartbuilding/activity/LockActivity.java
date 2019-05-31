@@ -1,7 +1,6 @@
 package com.aojiexun.smartbuilding.activity;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,44 +17,35 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.usb.UsbDeviceConnection;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anupcowkur.reservoir.Reservoir;
 import com.aojiexun.smartbuilding.BaseApplication;
 import com.aojiexun.smartbuilding.R;
 import com.aojiexun.smartbuilding.component.MyMessageReceiver;
-import com.aojiexun.smartbuilding.constant.Constant;
 import com.aojiexun.smartbuilding.controller.FaceInController;
 import com.aojiexun.smartbuilding.gpiotest.Gpio;
-import com.aojiexun.smartbuilding.network.FileDownLoadSubscriber;
 import com.aojiexun.smartbuilding.request.NotSuccess;
 import com.aojiexun.smartbuilding.response.AllFace;
 import com.aojiexun.smartbuilding.response.CardIDBean;
+import com.aojiexun.smartbuilding.rkgpio.GPIOEnum;
 import com.aojiexun.smartbuilding.serialport_util.NewLockerSerialportUtil;
-import com.aojiexun.smartbuilding.serialport_util.NewLockerSerialportUtil_2;
 import com.aojiexun.smartbuilding.setting.TtsSettings;
 import com.aojiexun.smartbuilding.utils.APKVersionCodeUtils;
 import com.aojiexun.smartbuilding.utils.FaceDB;
-import com.aojiexun.smartbuilding.utils.ToastUtils;
-import com.aojiexun.smartbuilding.utils.Utils;
 import com.aojiexun.smartbuilding.view.ExitAlertDialog;
 import com.arcsoft.ageestimation.ASAE_FSDKEngine;
 import com.arcsoft.ageestimation.ASAE_FSDKError;
@@ -72,14 +62,13 @@ import com.arcsoft.facetracking.AFT_FSDKVersion;
 import com.arcsoft.genderestimation.ASGE_FSDKEngine;
 import com.arcsoft.genderestimation.ASGE_FSDKError;
 import com.arcsoft.genderestimation.ASGE_FSDKVersion;
+import com.friendlyarm.FriendlyThings.HardwareControler;
 import com.guo.android_extend.java.AbsLoop;
 import com.guo.android_extend.java.ExtByteArrayOutputStream;
 import com.guo.android_extend.tools.CameraHelper;
 import com.guo.android_extend.widget.CameraFrameData;
 import com.guo.android_extend.widget.CameraGLSurfaceView;
 import com.guo.android_extend.widget.CameraSurfaceView;
-import com.hanma.fcd.CameraUtil;
-import com.hanma.fcd.DoolLockUtil;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechConstant;
@@ -91,15 +80,15 @@ import com.iflytek.cloud.util.ResourceUtil;
 
 import com.orhanobut.logger.Logger;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -264,18 +253,20 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
                         mTts.startSpeaking(getResources().getString(R.string.successful_open), mTtsListener);
                     }
                     SharedPreferences sharedPreferences = getSharedPreferences("user_info", 0);
-                    gpiostr = sharedPreferences.getString("gpiotext", "");
-                    Logger.e("LockAcitvity" + "===========" + gpiostr);
-                    try {
-                        Gpio.gpioInt(gpiostr);
-                        Thread.sleep(400);
-                        Gpio.set(gpiostr, 48);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    gpiostr = sharedPreferences.getString("gpiotext", "");
+//                    Logger.e("LockAcitvity" + "===========" + gpiostr);
+//                    try {
+//                        Gpio.gpioInt(gpiostr);
+//                        Thread.sleep(400);
+//                        Gpio.set(gpiostr, 48);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Gpio.set(gpiostr, 49);
+//                   // DoolLockUtil.Instance().openDoorDelay(5 * 1000);
+                    Log.e(TAG, "handleMessage: "+"" );
+                    HardwareControler.setGPIOValue(33,GPIOEnum.HIGH);
                     Gpio.set(gpiostr, 49);
-                   // DoolLockUtil.Instance().openDoorDelay(5 * 1000);
-
                     break;
 
 
@@ -283,13 +274,14 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
         }
     };
     private long time = 0;
-
+    DataOutputStream dos;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         baseApplication = (BaseApplication) getApplication();
         // 初始化合成对象
+
         Log.e(TAG, Camera.getNumberOfCameras() + ">>>>>>>>>>>>>>>>");
         mTts = SpeechSynthesizer.createSynthesizer(this, mTtsInitListener);
         mSharedPreferences = getSharedPreferences(TtsSettings.PREFER_NAME, Activity.MODE_PRIVATE);
@@ -299,7 +291,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
         setParam();
         time = 1000L * 60L * 60L * 24L * 30L;
         PackageInfo pi = null;
-
+        HardwareControler.setGPIOValue(33,GPIOEnum.LOW);
         try {
             pi = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionName.setText(pi.versionName);
@@ -555,6 +547,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
         if (TextUtils.isEmpty(repwd)) {
             userInfo.edit().putString("devicepwd", "666666").commit();
         }
+        HardwareControler.setGPIOValue(33,GPIOEnum.LOW);
         mGLSurfaceView = (CameraGLSurfaceView) findViewById(R.id.glsurfaceView);
         mGLSurfaceView.setOnTouchListener(LockActivity.this);
         mSurfaceView = (CameraSurfaceView) findViewById(R.id.surfaceView);
