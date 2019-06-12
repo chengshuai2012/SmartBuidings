@@ -548,12 +548,13 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
             userInfo.edit().putString("devicepwd", "666666").commit();
         }
         HardwareControler.setGPIOValue(33,GPIOEnum.LOW);
+
         mGLSurfaceView = (CameraGLSurfaceView) findViewById(R.id.glsurfaceView);
         mGLSurfaceView.setOnTouchListener(LockActivity.this);
         mSurfaceView = (CameraSurfaceView) findViewById(R.id.surfaceView);
         mSurfaceView.setOnCameraListener(LockActivity.this);
         mSurfaceView.setupGLSurafceView(mGLSurfaceView, true, mCameraMirror, mCameraRotate);
-        mSurfaceView.debug_print_fps(true, false);
+        mSurfaceView.debug_print_fps(false, false);
         AFT_FSDKError err = engine.AFT_FSDK_InitialFaceEngine(FaceDB.appid, FaceDB.ft_key, AFT_FSDKEngine.AFT_OPF_0_HIGHER_EXT, 16, 5);
         Log.d(TAG, "AFT_FSDK_InitialFaceEngine =" + err.getCode());
         err = engine.AFT_FSDK_GetVersion(version);
@@ -601,18 +602,10 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
     protected void onResume() {
         Logger.e("resume");
         userinfo = getSharedPreferences("user_info", MODE_MULTI_PROCESS);
-        String gpio = userinfo.getString("gpiotext", null);
-        deviceId = userinfo.getString("deviceId", "");
-        if (gpio == null) {
-            userinfo.edit().putString("gpiotext", "1067").commit();
-        }
         if (isWorkFinish) {
             //  workHandler.sendEmptyMessage(19);
             isWorkFinish = false;
         }
-        gpiotext = userinfo.getString(gpiotext, "");
-        Gpio.gpioInt(gpiotext);
-        Gpio.set(gpiotext, 48);
         super.onResume();
 
 
@@ -754,7 +747,14 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
     }
     @OnClick(R.id.bindface)
     public void onClick(View view){
-        startActivity(new Intent(this,BindFaceActivity.class));
+        int boardType = HardwareControler.getBoardType();
+        Log.e(TAG, "onClick: "+boardType);
+        HardwareControler.setGPIOValue(33,GPIOEnum.OUT);
+        HardwareControler.setGPIOValue(36,GPIOEnum.OUT);
+        HardwareControler.setGPIOValue(33,GPIOEnum.HIGH);
+        HardwareControler.setGPIOValue(36,GPIOEnum.HIGH);
+
+        //startActivity(new Intent(this,BindFaceActivity.class));
     }
     @Override
     public void onBeforeRender(CameraFrameData data) {
