@@ -358,7 +358,7 @@ public class LockActivity extends BaseAppCompatActivity implements CameraSurface
         //发音人资源
         tempBuffer.append(ResourceUtil.generateResourcePath(this, ResourceUtil.RESOURCE_TYPE.assets, "tts/" + LockActivity.voicerLocal + ".jet"));
         return tempBuffer.toString();
-    }
+}
 
     public void showTip(final String str) {
         runOnUiThread(new Runnable() {
