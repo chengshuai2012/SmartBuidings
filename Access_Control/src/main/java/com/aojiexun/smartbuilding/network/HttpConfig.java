@@ -17,7 +17,7 @@ public class HttpConfig {
 
     public static int HTTP_TIME=30;
 
-    public static String BASE_URL="http://120.77.158.84:8089/";
+    public static String BASE_URL="http://120.79.50.61:8089";
 
     public static String MAC="";
 
