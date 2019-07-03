@@ -492,10 +492,10 @@ public class BindFaceActivity extends BaseAppCompatActivity implements View.OnTo
                 bindController.check(phoneNum);
                 break;
             case R.id.face_back:
-             finish();
+             setActivtyChange("1");
                 break;
             case R.id.confirm:
-                finish();
+                setActivtyChange("1");
                 break;
             case R.id.take_photo:
                 ExtByteArrayOutputStream ops = new ExtByteArrayOutputStream();
@@ -751,7 +751,7 @@ public class BindFaceActivity extends BaseAppCompatActivity implements View.OnTo
                 @Override
 
                 public void run() {
-                    finish();
+                    setActivtyChange("1");
 
                 }
 

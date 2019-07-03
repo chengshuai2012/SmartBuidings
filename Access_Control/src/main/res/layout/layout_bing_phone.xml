@@ -6,7 +6,7 @@
     <LinearLayout
      android:id="@+id/bind_step_phone"
     style="@style/edit_linearLayout"
-    android:layout_width="500dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:visibility="visible"
     android:layout_gravity="center">
@@ -37,7 +37,7 @@
     <com.aojiexun.smartbuilding.utils.ClearEditText
         android:id="@+id/phone_regist_one"
         android:layout_width="match_parent"
-    android:layout_height="80px"
+    android:layout_height="160px"
     android:background="@drawable/textview_style"
     android:drawablePadding="10dp"
     android:hint=""
@@ -47,7 +47,7 @@
     android:padding="10dp"
     android:textColor="@color/white"
     android:text=""
-    android:textSize="40sp"
+    android:textSize="20sp"
     android:layout_marginTop="40px"
     android:layout_marginBottom="40px"/>
     </LinearLayout>
@@ -117,13 +117,13 @@
                     android:text=""
                     android:textColor="@color/black"
                     android:textCursorDrawable="@null"
-                    android:textSize="35dp" />
+                    android:textSize="20dp" />
 
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-    android:layout_width="520dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:gravity="center"
