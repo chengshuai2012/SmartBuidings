@@ -76,7 +76,10 @@ android {
         exclude 'META-INF/rxjava.properties'
     }
 
-
+    packagingOptions{
+        doNotStrip '*/mips/*.so'
+        doNotStrip '*/mips64/*.so'
+    }
     buildTypes {
         release {
             minifyEnabled false
